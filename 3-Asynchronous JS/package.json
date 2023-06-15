@@ -1,0 +1,17 @@
+{
+  "name": "3-asynchronous-js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "superagent": "^8.0.9"
+  }
+}
