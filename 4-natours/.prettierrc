@@ -1,9 +1,3 @@
 {
-  "prettier/prettier": [
-    "error",
-    {},
-    {
-      "usePrettierrc": false
-    }
-  ]
+ "singleQuote": true
 }
