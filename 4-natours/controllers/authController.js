@@ -16,6 +16,7 @@ exports.singup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: req.body.passwordChangedAt,
   });
   //const newUser = await User.create(req.body);
 
@@ -55,7 +56,7 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.protect = (req, res, next) => {
+exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check of it's there
   let token;
   if (
@@ -72,11 +73,19 @@ exports.protect = (req, res, next) => {
     );
   }
   // 2) Verification token
-  const decode = promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  console.log(decode);
 
   // 3) Check if user still exists
+  const freshUser = await User.findById(decode.id);
+  if (!freshUser) {
+    return next(
+      new AppError('The user belonging to this token does no longer exit.', 401)
+    );
+  }
 
   // 4) Check if user changed password after the JWT was issued
+  freshUser.changesPasswordAfter(decode.iat);
 
   next();
-};
+});
