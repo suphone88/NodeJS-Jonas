@@ -20,6 +20,11 @@ router
     tourController.getMonthlyPlan
   );
 
+router.route(
+  '/tours-within/:distance/center/:latlng/unit/:unit',
+  tourController.getToursWithin
+);
+
 //router.param('id', tourController.checkID);
 
 // Create a checkBody middleware
